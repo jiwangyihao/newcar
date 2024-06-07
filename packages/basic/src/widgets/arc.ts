@@ -1,23 +1,17 @@
-import type { ConvertToProp, Prop } from '@newcar/core'
+import type { FromCreate, Prop } from '@newcar/core'
 import { changed, def, defineWidgetBuilder } from '@newcar/core'
-import type { Path, PathOptions, PathStyle } from './path'
+import type { PathOptions, PathStyle } from './path'
 import { createPath } from './path'
 
 export interface ArcOptions extends PathOptions {
   style?: ArcStyle
 }
 
-export interface ArcStyle extends PathStyle { }
-
-export interface Arc extends Path {
-  style: ConvertToProp<ArcStyle>
-  radius: Prop<number>
-  from: Prop<number>
-  to: Prop<number>
+export interface ArcStyle extends PathStyle {
 }
 
 export function createArc(radius: number, from: number, to: number, options?: ArcOptions) {
-  return defineWidgetBuilder<Arc>((ck) => {
+  return defineWidgetBuilder((ck) => {
     options ??= {}
     options.style ??= {}
     const path = createPath(options)(ck)
@@ -44,7 +38,7 @@ export function createArc(radius: number, from: number, to: number, options?: Ar
       path.path.rewind()
       path.path.addArc(rect, fromProp.value, v.value * path.progress.value)
     })
-    changed(path.progress, (v) => {
+    changed(path.progress, (v: Prop<number>) => {
       path.path.rewind()
       path.path.addArc(rect, fromProp.value, v.value * toProp.value)
     })
@@ -57,3 +51,5 @@ export function createArc(radius: number, from: number, to: number, options?: Ar
     }
   })
 }
+
+export type Arc = FromCreate<typeof createArc>

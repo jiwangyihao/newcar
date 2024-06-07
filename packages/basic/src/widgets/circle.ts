@@ -1,8 +1,7 @@
+import type { FromCreate } from '@newcar/core'
 import { changed, def, defineWidgetBuilder } from '@newcar/core'
-import type { Arc, ArcOptions } from './arc'
+import type { ArcOptions } from './arc'
 import { createArc } from './arc'
-
-export interface Circle extends Arc {}
 
 export function createCircle(radius: number, options?: ArcOptions) {
   return defineWidgetBuilder((ck) => {
@@ -21,3 +20,5 @@ export function createCircle(radius: number, options?: ArcOptions) {
     }
   })
 }
+
+export type Circle = FromCreate<typeof createCircle>

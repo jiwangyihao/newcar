@@ -1,5 +1,5 @@
 import type { Shader, TextAlign, TextDirection, TextHeightBehavior } from '@newcar/utils'
-import type { Base, BaseOptions, BaseStyle, ConvertToProp } from '@newcar/core'
+import type { BaseOptions, BaseStyle, FromCreate } from '@newcar/core'
 import { $resources, createBase, def, defineWidgetBuilder } from '@newcar/core'
 import { Color, str2TextAlign, str2TextDirection, str2TextHeightBehavior } from '@newcar/utils'
 import type { Canvas } from 'canvaskit-wasm'
@@ -84,13 +84,8 @@ export interface TextGroupStyle extends BaseStyle {
   applyRoundingHack?: boolean
 }
 
-export interface TextGroup extends Base {
-  texts: Text[]
-  style: ConvertToProp<TextGroupStyle>
-}
-
 export function createTextGroup(texts: Text[], options?: TextGroupOptions) {
-  return defineWidgetBuilder<TextGroup>((ck) => {
+  return defineWidgetBuilder((ck) => {
     options ??= {}
     options.style ??= {}
     const width = def(options.width ?? Number.POSITIVE_INFINITY)
@@ -166,3 +161,5 @@ export function createTextGroup(texts: Text[], options?: TextGroupOptions) {
     }
   })
 }
+
+export type TextGroup = FromCreate<typeof createTextGroup>

@@ -18,7 +18,7 @@ export function defineCreateAppApi(ck: CanvasKit) {
 
     function play() {
       if (isNull(scene))
-        return error('The scene is not existm, please use `App.checkout()` to mount a scene')
+        return error('No scene can be played now, please use `App.checkout()` to mount a scene')
       if (scene!.player.paused)
         return
       surface?.requestAnimationFrame((canvas) => {

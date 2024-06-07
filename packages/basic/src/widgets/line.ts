@@ -1,7 +1,7 @@
-import type { ConvertToProp, Prop } from '@newcar/core'
+import type { FromCreate, Prop } from '@newcar/core'
 import { changed, def, defineWidgetBuilder } from '@newcar/core'
 import type { Vector2 } from '../utils/vector2'
-import type { Path, PathOptions, PathStyle } from './path'
+import type { PathOptions, PathStyle } from './path'
 import { createPath } from './path'
 
 export interface LineOptions extends PathOptions {
@@ -16,14 +16,8 @@ export interface LineStyle extends PathStyle {
   width?: number
 }
 
-export interface Line extends Path {
-  style: ConvertToProp<LineStyle>
-  from: Prop<Vector2>
-  to: Prop<Vector2>
-}
-
 export function createLine(from: Vector2, to: Vector2, options?: LineOptions) {
-  return defineWidgetBuilder<Line>((ck) => {
+  return defineWidgetBuilder((ck) => {
     options ??= {}
     options.style ??= {}
     const fromProp = def(from)
@@ -69,3 +63,5 @@ export function createLine(from: Vector2, to: Vector2, options?: LineOptions) {
     }
   })
 }
+
+export type Line = FromCreate<typeof createLine>

@@ -1,6 +1,6 @@
-import type { ConvertToProp } from '@newcar/core'
+import type { FromCreate } from '@newcar/core'
 import { changed, def, defineWidgetBuilder } from '@newcar/core'
-import type { Path, PathOptions, PathStyle } from './path'
+import type { PathOptions, PathStyle } from './path'
 import { createPath } from './path'
 
 function mapRadius(source: RectStyle['radius']): [number, number, number, number, number, number, number, number] {
@@ -44,12 +44,8 @@ export interface RectStyle extends PathStyle {
   | [number, number, number, number, number, number, number, number]
 }
 
-export interface Rect extends Path {
-  style: ConvertToProp<RectStyle>
-}
-
 export function createRect(width: number, length: number, options: RectOptions) {
-  return defineWidgetBuilder<Rect>((ck) => {
+  return defineWidgetBuilder((ck) => {
     options ??= {}
     options.style ??= {}
     const widthProp = def(width)
@@ -92,3 +88,5 @@ export function createRect(width: number, length: number, options: RectOptions) 
     }
   })
 }
+
+export type Rect = FromCreate<typeof createRect>

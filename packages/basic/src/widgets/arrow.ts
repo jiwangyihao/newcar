@@ -1,3 +1,4 @@
+import type { FromCreate } from '@newcar/core'
 import { changed, def, defineWidgetBuilder } from '@newcar/core'
 import type { Vector2 } from '../utils/vector2'
 import { type FigureOptions, type FigureStyle, createFigure } from './figure'
@@ -11,7 +12,7 @@ import { createLine } from './line'
  *
  * @param startPoint The starting point of the line.
  * @param endPoint The ending point of the line.
- * @returns The rotation angle in degrees, where 0 degrees points to the right (east),
+ * @returns The rotation angle in degrees, where 0 degrees points to the right,
  * and positive angles are measured clockwise.
  */
 function calculateArrowRotationAngle(
@@ -45,7 +46,8 @@ export interface ArrowOptions extends FigureOptions {
 /**
  * Represents the style properties that can be applied to an arrow figure.
  */
-export interface ArrowStyle extends FigureStyle { }
+export interface ArrowStyle extends FigureStyle {
+}
 
 export function createArrow(from: Vector2, to: Vector2, options?: ArrowOptions) {
   return defineWidgetBuilder((ck) => {
@@ -98,3 +100,5 @@ export function createArrow(from: Vector2, to: Vector2, options?: ArrowOptions) 
     }
   })
 }
+
+export type Arrow = FromCreate<typeof createArrow>

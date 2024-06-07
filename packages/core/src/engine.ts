@@ -1,6 +1,5 @@
-import CanvasKitInit from 'canvaskit-wasm'
+import CanvasKitInit, { type CanvasKit } from 'canvaskit-wasm'
 import { defineCreateAppApi } from './app'
-import type { Widget, WidgetBuilder } from './widget'
 
 export async function initEngine(wasm: string) {
   const ck = await CanvasKitInit({
@@ -9,7 +8,7 @@ export async function initEngine(wasm: string) {
 
   const createApp = defineCreateAppApi(ck) as ReturnType<typeof defineCreateAppApi>
 
-  function use<T extends Widget>(builder: WidgetBuilder<T>) {
+  function use<T>(builder: (ck: CanvasKit) => T) {
     return builder(ck)
   }
 

@@ -1,9 +1,8 @@
 import type { BlendMode } from '@newcar/utils'
 import type { Canvas } from 'canvaskit-wasm'
-import type { Widget } from './widget'
+import type { FromCreate, Widget } from './widget'
 import { defineWidgetBuilder } from './widget'
 import type { Animate } from './animation'
-import type { ConvertToProp, Prop } from './prop'
 import { def } from './prop'
 
 export interface BaseOptions {
@@ -27,27 +26,8 @@ export interface BaseStyle {
   antiAlias?: boolean
 }
 
-export interface Base extends Widget {
-  x: Prop<number>
-  y: Prop<number>
-  centerX: Prop<number>
-  centerY: Prop<number>
-  progress: Prop<number>
-  animates: Animate<any>[]
-  live: Prop<boolean>
-  display: Prop<boolean>
-  style: ConvertToProp<BaseStyle>
-  children: Widget[]
-  add: (...children: Widget[]) => Base
-  animate: <T extends Widget>(animate: Animate<T>) => Base
-  born: () => Base
-  kill: () => Base
-  show: () => Base
-  hide: () => Base
-}
-
 export function createBase(options: BaseOptions) {
-  return defineWidgetBuilder<Base>((ck) => {
+  return defineWidgetBuilder((ck) => {
     options ??= {}
     options.style ??= {}
 
@@ -153,3 +133,5 @@ export function createBase(options: BaseOptions) {
     }
   })
 }
+
+export type Base = FromCreate<typeof createBase>

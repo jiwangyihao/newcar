@@ -1,22 +1,18 @@
-import type { ConvertToProp, Prop } from '@newcar/core'
+import type { FromCreate } from '@newcar/core'
 import { changed, def, defineWidgetBuilder } from '@newcar/core'
 import type { Vector2 } from '../utils/vector2'
-import type { Path, PathOptions, PathStyle } from './path'
+import type { PathOptions, PathStyle } from './path'
 import { createPath } from './path'
 
 export interface PolygonOptions extends PathOptions {
   style?: PolygonStyle
 }
 
-export interface PolygonStyle extends PathStyle {}
-
-export interface Polygon extends Path {
-  style: ConvertToProp<PolygonStyle>
-  points: Prop<Vector2>[]
+export interface PolygonStyle extends PathStyle {
 }
 
 export function createPolygon(points: Vector2[], options?: PolygonOptions) {
-  return defineWidgetBuilder<Polygon>((ck) => {
+  return defineWidgetBuilder((ck) => {
     options ??= {}
     options.style ??= {}
     const pointsProp = points.map(point => def(point))
@@ -47,3 +43,5 @@ export function createPolygon(points: Vector2[], options?: PolygonOptions) {
     }
   })
 }
+
+export type Polygon = FromCreate<typeof createPolygon>

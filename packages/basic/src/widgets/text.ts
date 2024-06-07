@@ -1,8 +1,7 @@
 import type {
-  Base,
   BaseOptions,
   BaseStyle,
-  ConvertToProp,
+  FromCreate,
 } from '@newcar/core'
 import {
   $resources,
@@ -13,7 +12,7 @@ import {
 } from '@newcar/core'
 import type { BlendMode, Shader, TextAlign, TextBaseline } from '@newcar/utils'
 import { Color, str2BlendMode, str2TextAlign, str2TextBaseline } from '@newcar/utils'
-import type { Canvas, FontStyle, Paint, TextStyle as ckTextStyle } from 'canvaskit-wasm'
+import type { Canvas, FontStyle } from 'canvaskit-wasm'
 
 export interface TextOptions extends BaseOptions {
   style?: TextStyle
@@ -93,16 +92,8 @@ export interface TextStyle extends BaseStyle {
   wordSpacing?: number
 }
 
-export interface Text extends Base {
-  style: ConvertToProp<TextStyle>
-  text: ReturnType<typeof def<string>>
-  paint: Paint
-  backgroundPaint: Paint
-  textStyle: ckTextStyle
-}
-
 export function createText(text: string, options?: TextOptions) {
-  return defineWidgetBuilder<Text>((ck) => {
+  return defineWidgetBuilder((ck) => {
     options ??= {}
     options.style ??= {}
     const base = createBase(options)(ck)
@@ -247,3 +238,5 @@ export function createText(text: string, options?: TextOptions) {
     }
   })
 }
+
+export type Text = FromCreate<typeof createText>

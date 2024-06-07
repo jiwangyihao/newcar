@@ -1,8 +1,8 @@
 import type { Shader, StrokeCap, StrokeJoin } from '@newcar/utils'
 import { Color, str2StrokeCap, str2StrokeJoin } from '@newcar/utils'
-import type { Base, BaseOptions, BaseStyle, ConvertToProp } from '@newcar/core'
+import type { BaseOptions, BaseStyle, FromCreate } from '@newcar/core'
 import { changed, createBase, def, defineWidgetBuilder } from '@newcar/core'
-import type { Paint } from 'canvaskit-wasm'
+import type { CanvasKit } from 'canvaskit-wasm'
 
 export interface FigureStyle extends BaseStyle {
   border?: boolean
@@ -24,14 +24,8 @@ export interface FigureOptions extends BaseOptions {
   style?: FigureStyle
 }
 
-export interface Figure extends Base {
-  style: ConvertToProp<FigureStyle>
-  fillPaint: Paint
-  strokePaint: Paint
-}
-
 export function createFigure(options?: FigureOptions) {
-  return defineWidgetBuilder<Figure>((ck) => {
+  return defineWidgetBuilder((ck: CanvasKit) => {
     options ??= {}
     options.style ??= {}
     const base = createBase(options)(ck)
@@ -143,3 +137,5 @@ export function createFigure(options?: FigureOptions) {
     }
   })
 }
+
+export type Figure = FromCreate<typeof createFigure>

@@ -1,6 +1,5 @@
-import type { BaseOptions } from '@newcar/core'
+import type { BaseOptions, FromCreate } from '@newcar/core'
 import { changed, createBase, def, defineWidgetBuilder } from '@newcar/core'
-import { deepMerge } from '@newcar/utils'
 import type { Canvas } from 'canvaskit-wasm'
 
 export function createPicture(source: ArrayBuffer, options?: BaseOptions) {
@@ -19,9 +18,12 @@ export function createPicture(source: ArrayBuffer, options?: BaseOptions) {
       image = ck.MakeImageFromEncoded(v.value)
     })
 
-    return deepMerge(base, {
+    return {
+      ...base,
       source: sourceProp,
       render,
-    })
+    }
   })
 }
+
+export type Picture = FromCreate<typeof createPicture>

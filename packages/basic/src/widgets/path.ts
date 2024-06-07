@@ -1,25 +1,18 @@
 import type { Canvas, EmbindEnumEntity, InputCommands, Path as skPath } from 'canvaskit-wasm'
-import type { ConvertToProp } from '@newcar/core'
+import type { FromCreate } from '@newcar/core'
 import { defineWidgetBuilder } from '@newcar/core'
-import type { Figure, FigureOptions, FigureStyle } from './figure'
+import type { FigureOptions, FigureStyle } from './figure'
 import { createFigure } from './figure'
 
 export interface PathOptions extends FigureOptions {
   style?: PathStyle
 }
 
-export interface PathStyle extends FigureStyle {}
-
-export interface Path extends Figure {
-  style: ConvertToProp<PathStyle>
-  path: skPath
-  addPathFromPathString: (pathString: string) => void
-  addPathFromCmds: (cmds: InputCommands) => void
-  addPathFromOp: (one: skPath, two: skPath, op: EmbindEnumEntity) => void
+export interface PathStyle extends FigureStyle {
 }
 
 export function createPath(options?: PathOptions) {
-  return defineWidgetBuilder<Path>((ck) => {
+  return defineWidgetBuilder((ck) => {
     options ??= {}
     options.style ??= {}
     const figure = createFigure(options)(ck)
@@ -62,3 +55,5 @@ export function createPath(options?: PathOptions) {
     }
   })
 }
+
+export type Path = FromCreate<typeof createPath>
